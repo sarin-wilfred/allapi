@@ -40,5 +40,15 @@ public class RevWordServiceImplsTest {
 	public void testProcess4() throws RevWordException {
 		revWordService.process(null);
 	}
+	
+	@Test
+	public void testProcess5() throws RevWordException {
+		assertThat(revWordService.process("one")).isNotEqualTo("oen");
+	}
+	
+	@Test
+	public void testProcess6() throws RevWordException {
+		assertThat(revWordService.process("one one")).isNotEqualTo("oen one");
+	}
 
 }

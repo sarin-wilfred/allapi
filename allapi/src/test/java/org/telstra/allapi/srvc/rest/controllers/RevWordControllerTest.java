@@ -48,5 +48,19 @@ public class RevWordControllerTest {
 	public void testGenerateReversedWords4() throws RevWordException {
 		revWordController.generateReversedWords(null);
 	}
+	
+	@Test
+	public void testGenerateReversedWords5() throws RevWordException {
+		ResponseEntity<String> responseEntity = revWordController.generateReversedWords("test");
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNotEqualTo("test");
+	}
+	
+	@Test
+	public void testGenerateReversedWords6() throws RevWordException {
+		ResponseEntity<String> responseEntity = revWordController.generateReversedWords("test test");
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNotEqualTo("tset test");
+	}
 
 }
