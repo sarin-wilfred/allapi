@@ -25,28 +25,28 @@ public class MakeArrayServiceImpls implements MakeArrayService {
 	private static final Logger LOG = LoggerFactory.getLogger(MakeArrayServiceImpls.class);
 
 	/**
-	 * This method used to used to generate and sort one array from multiple array
+	 * This method used to used to generate and sort one array from multiple arrays
 	 * 
- 	 * @param requestData
-	 * @return Map<String, Integer[]>
+	 * @param requestData
+	 * @return ResponseEntity<Map<String, Float[]>>
 	 * @throws MakeArrayException
 	 */
 	@Override
-	public Map<String, Integer[]> process(Map<String, Integer[]> requestData) throws MakeArrayException {
+	public Map<String, Float[]> process(Map<String, Float[]> requestData) throws MakeArrayException {
 		LOG.info("STARTS - process");
-		Map<String, Integer[]> resultMap = new HashMap<>();
-		Set<Integer> result = new HashSet<>();
-		Integer[] sortedResult = null;
+		Map<String, Float[]> resultMap = new HashMap<>();
+		Set<Float> result = new HashSet<>();
+		Float[] sortedResult = null;
 		try {
 			requestData.entrySet().forEach(entry -> Collections.addAll(result, entry.getValue()));
-			sortedResult = result.parallelStream().sorted().toArray(Integer[]::new);
-			resultMap.put("Array", (Integer[]) sortedResult);
+			sortedResult = result.parallelStream().sorted().toArray(Float[]::new);
+			resultMap.put("Array", (Float[]) sortedResult);
 		} catch (Exception exception) {
 			LOG.error("Error Message", exception.getMessage());
 			throw new MakeArrayException(exception.getMessage());
 		}
-		for (Integer integer : sortedResult) {
-			LOG.info("Sorted Result: {}", integer);
+		for (Float floatObj : sortedResult) {
+			LOG.info("Sorted Result: {}", floatObj);
 		}
 		LOG.info("STARTS - process");
 		return resultMap;

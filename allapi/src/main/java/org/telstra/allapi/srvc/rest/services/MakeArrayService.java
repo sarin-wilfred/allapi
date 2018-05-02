@@ -16,9 +16,9 @@ public interface MakeArrayService {
 	/**
 	 * 
 	 * @param requestData
-	 * @return Map<String, Integer[]>
+	 * @return ResponseEntity<Map<String, Float[]>>
 	 * @throws MakeArrayException
 	 */
-	public Map<String, Integer[]> process(Map<String, Integer[]> requestData) throws MakeArrayException;
+	public Map<String, Float[]> process(Map<String, Float[]> requestData) throws MakeArrayException;
 
 }

@@ -4,14 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigInteger;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.telstra.allapi.srvc.rest.controllers.FibonacciController;
 import org.telstra.allapi.srvc.rest.exceptions.FibonacciException;
 
 /**
@@ -21,7 +22,10 @@ import org.telstra.allapi.srvc.rest.exceptions.FibonacciException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FibonacciControllerTest {
-
+	 
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
+	
 	@Autowired
 	private FibonacciController fibonacciController;
 
@@ -45,9 +49,25 @@ public class FibonacciControllerTest {
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntity.getBody()).isEqualTo(0);
 	}
-
-	@Test(expected = FibonacciException.class)
+	
+	@Test
 	public void testFindFibonacciNumber4() throws FibonacciException {
+		ResponseEntity<BigInteger> responseEntity = fibonacciController.findFibonacciNumber(11L);
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNotEqualTo(60);
+	}
+	
+	@Test
+	public void testFindFibonacciNumber5() throws FibonacciException {
+		ResponseEntity<BigInteger> responseEntity = fibonacciController.findFibonacciNumber(13L);
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNotEqualTo(145);
+	}
+	
+	@Test
+	public void testFindFibonacciNumber6() throws FibonacciException {
+		exception.expect(FibonacciException.class);
+		exception.expectMessage("The value of n is negative and not valid.");
 		fibonacciController.findFibonacciNumber(-1L);
 	}
 

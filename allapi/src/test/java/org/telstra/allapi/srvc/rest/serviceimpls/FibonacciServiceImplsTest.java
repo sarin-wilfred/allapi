@@ -2,7 +2,9 @@ package org.telstra.allapi.srvc.rest.serviceimpls;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +19,9 @@ import org.telstra.allapi.srvc.rest.services.FibonacciService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FibonacciServiceImplsTest {
+	
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
 	@Autowired
 	private FibonacciService fibonacciService;
@@ -35,10 +40,29 @@ public class FibonacciServiceImplsTest {
 	public void testCalculate3() throws FibonacciException {
 		assertThat(fibonacciService.calculate(0L)).isEqualTo(0);
 	}
-
-	@Test(expected = FibonacciException.class)
+	
+	@Test
 	public void testCalculate4() throws FibonacciException {
+		exception.expect(FibonacciException.class);
+		exception.expectMessage("The value of n is negative and not valid.");
 		fibonacciService.calculate(-2L);
+	}
+	
+	@Test
+	public void testCalculate5() throws FibonacciException {
+		assertThat(fibonacciService.calculate(12L)).isNotEqualTo(90);
+	}
+	
+	public void testCalculate6() throws FibonacciException {
+		assertThat(fibonacciService.calculate(14L)).isNotEqualTo(234);
+	}
+
+	
+	@Test
+	public void testCalculate7() throws FibonacciException {
+		exception.expect(FibonacciException.class);
+		exception.expectMessage("The value of n is negative and not valid.");
+		fibonacciService.calculate(-10L);
 	}
 
 }

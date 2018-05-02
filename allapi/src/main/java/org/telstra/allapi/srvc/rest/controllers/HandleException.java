@@ -5,9 +5,10 @@ package org.telstra.allapi.srvc.rest.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.telstra.allapi.srvc.rest.exceptions.FibonacciException;
 import org.telstra.allapi.srvc.rest.exceptions.MakeArrayException;
@@ -20,18 +21,20 @@ import org.telstra.allapi.srvc.rest.exceptions.TriangleTypeException;
  */
 @RestControllerAdvice
 public class HandleException {
-	
+
 	/**
 	 * Method added to handle FibonacciException
 	 * 
 	 * @param request
 	 * @param fibEx
+	 * @return ResponseEntity<String>
 	 */
 	@ExceptionHandler(FibonacciException.class)
-	@ResponseStatus(code=HttpStatus.CONFLICT, reason="Exception occurred during the calculation of fibanocci number.")
-	public void handleException(HttpServletRequest request, FibonacciException fibEx) {
+	public ResponseEntity<String> handleException(HttpServletRequest request, FibonacciException fibEx) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
+				.body(fibEx.getMessage());
 	}
-	
+
 	/**
 	 * Method added to handle RevWordException
 	 * 
@@ -39,53 +42,48 @@ public class HandleException {
 	 * @param rwEx
 	 */
 	@ExceptionHandler(RevWordException.class)
-	@ResponseStatus(code=HttpStatus.CONFLICT, reason="Exception occurred during the generation of reverse word.")
-	public void handleException(HttpServletRequest request, RevWordException rwEx) {
+	public ResponseEntity<String> handleException(HttpServletRequest request, RevWordException rwEx) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
+				.body("Exception occurred during the generation of reverse word.");
 	}
-	
+
 	/**
 	 * Method added to handle TriangleTypeException
 	 * 
 	 * @param request
 	 * @param ttex
+	 * @return ResponseEntity<String>
 	 */
 	@ExceptionHandler(TriangleTypeException.class)
-	@ResponseStatus(code = HttpStatus.CONFLICT, reason = "Exception occurred while finding triangle type.")
-	public void handleException(HttpServletRequest request, TriangleTypeException ttex) {
+	public ResponseEntity<String> handleException(HttpServletRequest request, TriangleTypeException ttex) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
+				.body(ttex.getMessage());
 	}
-	
+
 	/**
 	 * Method added to handle MakeArrayException
 	 * 
 	 * @param request
 	 * @param maEx
+	 * @return ResponseEntity<String>
 	 */
 	@ExceptionHandler(MakeArrayException.class)
-	@ResponseStatus(code=HttpStatus.CONFLICT, reason="Exception occurred during the generation array.")
-	public void handleException(HttpServletRequest request, MakeArrayException maEx) {
+	public ResponseEntity<String> handleException(HttpServletRequest request, MakeArrayException maEx) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
+				.body(maEx.getMessage());
 	}
-	
-	
+
 	/**
-	 * Method added to handle NumberFormatException
+	 * Method added to handle Exception
 	 * 
 	 * @param request
-	 * @param nfEx
-	 */
-	@ExceptionHandler(NumberFormatException.class)
-	@ResponseStatus(code=HttpStatus.METHOD_NOT_ALLOWED, reason="Null not expected.")
-	public void handleException(HttpServletRequest request, NumberFormatException nfEx) {
-	}
-	
-	/**
-	 *  Method added to handle Exception
-	 *  
-	 * @param request
 	 * @param ex
+	 * @return ResponseEntity<String>
 	 */
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(code=HttpStatus.METHOD_NOT_ALLOWED, reason="All api Application Error.")
-	public void handleException(HttpServletRequest request, Exception ex) {
+	public ResponseEntity<String> handleException(HttpServletRequest request, Exception ex) {
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).cacheControl(CacheControl.noCache())
+				.body("HTTP request is not supported");
 	}
 
 }

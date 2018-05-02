@@ -32,7 +32,9 @@ public class FibonacciServiceImpls implements FibonacciService {
 	public BigInteger calculate(Long number) throws FibonacciException {
 		LOG.info("STARTS - calculate");
 		BigInteger result = null;
-		if (Long.compare(number, 0L) == 0) {
+		if(Long.compare(number, 0L) < 0) {
+			throw new FibonacciException( "The value of n is negative and not valid.");
+		} else if (Long.compare(number, 0L) == 0) {
 			result = new BigInteger("0");
 		} else {
 			try {

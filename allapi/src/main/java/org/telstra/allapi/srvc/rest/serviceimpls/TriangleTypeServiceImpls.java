@@ -32,19 +32,16 @@ public class TriangleTypeServiceImpls implements TriangleTypeService {
 	public TriangleType process(Integer a, Integer b, Integer c) throws TriangleTypeException {
 		LOG.info("STARTS - process");
 		TriangleType result = null;
-		try {
-			if (a <= 0 || b <= 0 || c <= 0)
-				result = TriangleType.INVALID;
-			else if (a == b && b == c)
-				result = TriangleType.EQUILATERAL;
-			else if (b == c || a == b || c == a)
-				result = TriangleType.ISOSCELES;
-			else
-				result = TriangleType.SCALENE;
-		} catch (Exception exception) {
-			LOG.error("Error Message", exception.getMessage());
-			throw new TriangleTypeException(exception.getMessage());
-		}
+		if (a <= 0 || b <= 0 || c <= 0)
+			throw new TriangleTypeException("Sides are not valid.");
+		else if (a == b && b == c)
+			result = TriangleType.EQUILATERAL;
+		else if (a >= b+c || b >= a+c || c >= b+a)
+			throw new TriangleTypeException("Sides are not valid.");
+		else if (b == c || a == b || c == a)
+			result = TriangleType.ISOSCELES;
+		else
+			result = TriangleType.SCALENE;
 		LOG.info("Result: {}", result);
 		LOG.info("STARTS - process");
 		return result;
