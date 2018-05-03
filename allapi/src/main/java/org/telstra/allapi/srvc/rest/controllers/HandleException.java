@@ -5,6 +5,8 @@ package org.telstra.allapi.srvc.rest.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import org.telstra.allapi.srvc.rest.exceptions.TriangleTypeException;
  */
 @RestControllerAdvice
 public class HandleException {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(HandleException.class);
 
 	/**
 	 * Method added to handle FibonacciException
@@ -31,6 +35,7 @@ public class HandleException {
 	 */
 	@ExceptionHandler(FibonacciException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, FibonacciException fibEx) {
+		LOG.error("Fibanocci error: {}", fibEx.getMessage());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
 				.body(fibEx.getMessage());
 	}
@@ -43,6 +48,7 @@ public class HandleException {
 	 */
 	@ExceptionHandler(RevWordException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, RevWordException rwEx) {
+		LOG.error("Reverse word error: {}", rwEx.getMessage());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
 				.body("Exception occurred during the generation of reverse word.");
 	}
@@ -56,6 +62,7 @@ public class HandleException {
 	 */
 	@ExceptionHandler(TriangleTypeException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, TriangleTypeException ttex) {
+		LOG.error("Triangle type error: {}", ttex.getMessage());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
 				.body(ttex.getMessage());
 	}
@@ -69,6 +76,7 @@ public class HandleException {
 	 */
 	@ExceptionHandler(MakeArrayException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, MakeArrayException maEx) {
+		LOG.error("Make array error: {}", maEx.getMessage());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).cacheControl(CacheControl.noCache())
 				.body(maEx.getMessage());
 	}
@@ -82,8 +90,9 @@ public class HandleException {
 	 */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, Exception ex) {
+		LOG.error("Error: {}", ex.getMessage());
 		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).cacheControl(CacheControl.noCache())
-				.body("HTTP request is not supported");
+				.body(ex.getMessage());
 	}
 
 }

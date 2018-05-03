@@ -64,5 +64,12 @@ public class FibonacciServiceImplsTest {
 		exception.expectMessage("The value of n is negative and not valid.");
 		fibonacciService.calculate(-10L);
 	}
+	
+	@Test
+	public void testCalculate8() throws FibonacciException {
+		exception.expect(FibonacciException.class);
+		exception.expectMessage("The value of n is negative and not valid.");
+		fibonacciService.calculate(-15L);
+	}
 
 }

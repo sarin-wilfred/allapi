@@ -113,4 +113,22 @@ public class MakeArrayControllerTest {
 		assertNotEquals(responseEntity.getBody().get("Array"), resultMap);
 	}
 	
+	@Test
+	public void testGenerateOneArray8() throws MakeArrayException {
+		exception.expect(MakeArrayException.class);
+		exception.expectMessage("Elements of the array contains null which is not valid.");
+		Map<String, Float[]> requestData = new HashMap<>();
+		requestData.put("Array1", new Float[] {4f,7f,1f, null});
+		makeArrayController.generateOneArray(requestData);
+	}
+	
+	@Test
+	public void testGenerateOneArray9() throws MakeArrayException {
+		exception.expect(MakeArrayException.class);
+		exception.expectMessage("Elements of the array contains null which is not valid.");
+		Map<String, Float[]> requestData = new HashMap<>();
+		requestData.put("Array1", new Float[] {null , null});
+		makeArrayController.generateOneArray(requestData);
+	}
+	
 }

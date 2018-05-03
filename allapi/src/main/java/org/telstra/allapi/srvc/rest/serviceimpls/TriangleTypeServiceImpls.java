@@ -29,16 +29,16 @@ public class TriangleTypeServiceImpls implements TriangleTypeService {
 	 * @throws TriangleTypeException
 	 */
 	@Override
-	public TriangleType process(Integer a, Integer b, Integer c) throws TriangleTypeException {
+	public TriangleType process(Float a, Float b, Float c) throws TriangleTypeException {
 		LOG.info("STARTS - process");
 		TriangleType result = null;
-		if (a <= 0 || b <= 0 || c <= 0)
+		if (a.compareTo(0f) <= 0 || b.compareTo(0f) <= 0 || c.compareTo(0f) <= 0)
 			throw new TriangleTypeException("Sides are not valid.");
-		else if (a == b && b == c)
+		else if (a.compareTo(b) == 0 && b.compareTo(c) == 0)
 			result = TriangleType.EQUILATERAL;
-		else if (a >= b+c || b >= a+c || c >= b+a)
+		else if (a.compareTo(Float.sum(b, c)) >= 0 || b.compareTo(Float.sum(a, c)) >= 0 || c.compareTo(Float.sum(b, a)) >= 0)
 			throw new TriangleTypeException("Sides are not valid.");
-		else if (b == c || a == b || c == a)
+		else if (b.compareTo(c) == 0 || a.compareTo(b) == 0 || c.compareTo(a) == 0)
 			result = TriangleType.ISOSCELES;
 		else
 			result = TriangleType.SCALENE;

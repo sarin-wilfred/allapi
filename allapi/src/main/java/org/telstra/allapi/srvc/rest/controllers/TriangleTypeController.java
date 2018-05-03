@@ -41,8 +41,8 @@ public class TriangleTypeController {
 	 * @throws TriangleTypeException
 	 */
 	@GetMapping("/api/TriangleType")
-	public ResponseEntity<String> findTriangleType(@RequestParam("a") Integer a, @RequestParam("b") Integer b,
-			@RequestParam("c") Integer c) throws TriangleTypeException {
+	public ResponseEntity<String> findTriangleType(@RequestParam("a") Float a, @RequestParam("b") Float b,
+			@RequestParam("c") Float c) throws TriangleTypeException {
 		LOG.info("STARTS - findTriangleType");
 		LOG.info("Sides a:{}, b:{}, c:{}", a, b, c);
 		TriangleType result = triangleTypeService.process(a, b, c);
@@ -61,7 +61,8 @@ public class TriangleTypeController {
 	 */
 	@ExceptionHandler(NumberFormatException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, NumberFormatException nfEx) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).cacheControl(CacheControl.noCache()).body("Sides should not be non-integer values.");
+		LOG.error("Triangle type error: {}", nfEx.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).cacheControl(CacheControl.noCache()).body("Sides should be digits.");
 	}
 
 }

@@ -22,6 +22,7 @@ import org.telstra.allapi.srvc.rest.exceptions.MakeArrayException;
 import org.telstra.allapi.srvc.rest.services.MakeArrayService;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
@@ -74,6 +75,7 @@ public class MakeArrayController {
 	 */
 	@ExceptionHandler(InvalidFormatException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, InvalidFormatException ifEx) {
+		LOG.error("Make array error: {}", ifEx.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).cacheControl(CacheControl.noCache()).body("Elements of the array should be valid.");
 	}
 	
@@ -86,6 +88,20 @@ public class MakeArrayController {
 	 */
 	@ExceptionHandler(JsonParseException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, JsonParseException jpEx) {
+		LOG.error("Make array error: {}", jpEx.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).cacheControl(CacheControl.noCache()).body("Input json is not valid.");
+	}
+	
+	/**
+	 * Method added to handle JsonMappingException
+	 * 
+	 * @param request
+	 * @param jmEx
+	 * @return ResponseEntity<String>
+	 */
+	@ExceptionHandler(JsonMappingException.class)
+	public ResponseEntity<String> handleException(HttpServletRequest request, JsonMappingException jmEx) {
+		LOG.error("Make array error: {}", jmEx.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).cacheControl(CacheControl.noCache()).body("Input json is not valid.");
 	}
 

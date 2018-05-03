@@ -59,6 +59,7 @@ public class FibonacciController {
 	 */
 	@ExceptionHandler(NumberFormatException.class)
 	public ResponseEntity<String> handleException(HttpServletRequest request, NumberFormatException nfEx) {
+		LOG.error("Fibanocci error: {}", nfEx.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).cacheControl(CacheControl.noCache()).body("The value of n is non-integer and not valid.");
 	}
 

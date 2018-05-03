@@ -52,23 +52,36 @@ public class FibonacciControllerTest {
 	
 	@Test
 	public void testFindFibonacciNumber4() throws FibonacciException {
+		exception.expect(FibonacciException.class);
+		exception.expectMessage("The value of n is negative and not valid.");
+		fibonacciController.findFibonacciNumber(-1L);
+	}
+	
+	@Test
+	public void testFindFibonacciNumber5() throws FibonacciException {
 		ResponseEntity<BigInteger> responseEntity = fibonacciController.findFibonacciNumber(11L);
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntity.getBody()).isNotEqualTo(60);
 	}
 	
 	@Test
-	public void testFindFibonacciNumber5() throws FibonacciException {
+	public void testFindFibonacciNumber6() throws FibonacciException {
 		ResponseEntity<BigInteger> responseEntity = fibonacciController.findFibonacciNumber(13L);
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntity.getBody()).isNotEqualTo(145);
 	}
 	
 	@Test
-	public void testFindFibonacciNumber6() throws FibonacciException {
+	public void testFindFibonacciNumber7() throws FibonacciException {
 		exception.expect(FibonacciException.class);
 		exception.expectMessage("The value of n is negative and not valid.");
-		fibonacciController.findFibonacciNumber(-1L);
+		fibonacciController.findFibonacciNumber(-9L);
 	}
-
+	
+	@Test
+	public void testFindFibonacciNumber8() throws FibonacciException {
+		exception.expect(FibonacciException.class);
+		exception.expectMessage("The value of n is negative and not valid.");
+		fibonacciController.findFibonacciNumber(-30L);
+	}
 }

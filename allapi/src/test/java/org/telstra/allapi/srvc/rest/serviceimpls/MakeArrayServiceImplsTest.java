@@ -108,5 +108,21 @@ public class MakeArrayServiceImplsTest {
 		resultMap.put("Array", new Float[] {31f,32f,-33f});
 		assertNotEquals(makeArrayService.process(requestData).get("Array"), resultMap);
 	}
+	
+	@Test
+	public void testProcess9() throws MakeArrayException {
+		exception.expect(MakeArrayException.class);
+		Map<String, Float[]> requestData = new HashMap<>();
+		requestData.put("Array1", new Float[] {1f,2f,3f, null});
+		makeArrayService.process(requestData);
+	}
+	
+	@Test
+	public void testProcess10() throws MakeArrayException {
+		exception.expect(MakeArrayException.class);
+		Map<String, Float[]> requestData = new HashMap<>();
+		requestData.put("Array1", new Float[] {1f,null,3f, null});
+		makeArrayService.process(requestData);
+	}
 
 }

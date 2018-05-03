@@ -20,6 +20,6 @@ public interface TriangleTypeService {
 	 * @return
 	 * @throws TriangleTypeException
 	 */
-	public TriangleType process(Integer a, Integer b, Integer c) throws TriangleTypeException;
+	public TriangleType process(Float a, Float b, Float c) throws TriangleTypeException;
 
 }
